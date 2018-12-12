@@ -93,12 +93,12 @@ render() {
       <div>
         <Jumbotron>
           <Grid>
-            <h1>Tracking the International Space Station (IIS)</h1>
+            <h1>Tracking the International Space Station (ISS)</h1>
             <p>The IIS travels at an altitude of about 250 miles and at a speed of 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p>
-            <p>The current location of the IIS over the earth is {this.state.lat} latitude, {this.state.lon} longitude.</p>
-            <h2>The following {this.state.travelers} people are currently on board the IIS:</h2>
+            <p>The current location of the ISS over the earth is {this.state.lat} latitude, {this.state.lon} longitude.</p>
+            <h2>The following {this.state.travelers} people are currently on board the ISS:</h2>
             <p>{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</p>
-            <h3>The IIS will pass by your location of {this.state.my_lat} {this.state.my_lon} on: {this.state.nextPassBy}</h3>
+            <h3>The ISS will pass by your location of {this.state.my_lat} {this.state.my_lon} on: {this.state.nextPassBy}</h3>
           </Grid>
         </Jumbotron>
       </div>
