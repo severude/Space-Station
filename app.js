@@ -8,7 +8,7 @@ let app = express();
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-const port = process.env.PORT || '8080';
+const port = process.env.PORT || '3000';
 app.set('port', port);
 
 const server = http.createServer(app);
