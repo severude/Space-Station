@@ -25,7 +25,7 @@ class App extends Component {
 }
 
   findLocation = () => {
-    $.getJSON('http://api.open-notify.org/iss-now.json?callback=?')
+    $.getJSON('https://api.open-notify.org/iss-now.json?callback=?')
       .then(response => {
         this.setState({
           lat: response.iss_position.latitude,
@@ -38,7 +38,7 @@ class App extends Component {
 }
 
 findPeople = () => {
-  $.getJSON('http://api.open-notify.org/astros.json?callback=?')
+  $.getJSON('https://api.open-notify.org/astros.json?callback=?')
     .then(response => {
       let persons = [];
       response.people.forEach(person => {
@@ -55,7 +55,7 @@ findPeople = () => {
 }
 
 findPassByTime = () => {
-  $.getJSON(`http://api.open-notify.org/iss-pass.json?lat=${this.state.my_lat}&lon=${this.state.my_lon}&alt=20&n=1&callback=?`)
+  $.getJSON(`https://api.open-notify.org/iss-pass.json?lat=${this.state.my_lat}&lon=${this.state.my_lon}&alt=20&n=1&callback=?`)
   .then(response => {
     let date = new Date(response.response[0].risetime * 1000);
     this.setState({
