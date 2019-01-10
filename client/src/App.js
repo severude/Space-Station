@@ -22,13 +22,15 @@ class App extends Component {
   componentDidMount() {
     this.myLocation();
 
-    this.findLocation();
+    this.findLocation()
+      .then(res => this.setState({ lat: res.latitude, lon: res.longitude }))
+      .catch(err => console.log(err));
 
     // this.findPeople();
 
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
+    // this.callBackendAPI()
+    //   .then(res => this.setState({ data: res.express }))
+    //   .catch(err => console.log(err));
   }
 
   callBackendAPI = async () => {
@@ -42,26 +44,13 @@ class App extends Component {
   };
 
   findLocation = async () => {
-    // const response = await fetch('/location');
-    // console.log(response.data);
-    // const body = await response.json();
+    const response = await fetch('/location');
+    const body = await response.json();
 
-    // if (response.status !== 200) {
-    //   throw Error(body.message) 
-    // }
-    // return body;
-
-    $.getJSON('/location')
-      .then(response => {
-        console.log(response);
-        this.setState({
-          lat: response.iss_position.latitude,
-          lon: response.iss_position.longitude,
-        });
-      })
-      .catch(error => {
-        console.warn('Error fetching and parsing data', error);
-      });
+    if (response.status !== 200) {
+      throw Error(body.message) 
+    }
+    return body;
   }
 
   findPeople = () => {
