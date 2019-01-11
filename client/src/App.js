@@ -22,19 +22,28 @@ class App extends Component {
   componentDidMount() {
     this.myLocation();
 
-    this.findLocation()
+    this.callBackendAPI('/location')
       .then(res => this.setState({ lat: res.latitude, lon: res.longitude }))
       .catch(err => console.log(err));
 
-    // this.findPeople();
+    this.callBackendAPI('/people')
+      .then(res => {
+        let persons = [];
+        res.people.forEach(person => {
+          persons.push(person.name);
+        });
+        this.setState({ travelers: res.number, people: persons })
+      })
+      .catch(err => console.log(err));
 
-    // this.callBackendAPI()
+    // this.callBackendAPI('/express_backend')
     //   .then(res => this.setState({ data: res.express }))
     //   .catch(err => console.log(err));
-  }
 
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
+  } //end componentDidMount()
+
+  callBackendAPI = async (url) => {
+    const response = await fetch(url);
     const body = await response.json();
 
     if (response.status !== 200) {
@@ -42,33 +51,6 @@ class App extends Component {
     }
     return body;
   };
-
-  findLocation = async () => {
-    const response = await fetch('/location');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
-  }
-
-  findPeople = () => {
-    $.getJSON('https://api.open-notify.org/astros.json?callback=?')
-      .then(response => {
-        let persons = [];
-        response.people.forEach(person => {
-          persons.push(person.name);
-        });
-        this.setState({
-          travelers: response.number,
-          people: persons
-        });
-      })
-      .catch(error => {
-        console.warn('Error fetching and parsing data', error);
-      });
-  }
 
   findPassByTime = () => {
     $.getJSON(`https://api.open-notify.org/iss-pass.json?lat=${this.state.my_lat}&lon=${this.state.my_lon}&alt=20&n=1&callback=?`)

@@ -22,8 +22,15 @@ app.get('/location', (req, res) => {
     axios.get('http://api.open-notify.org/iss-now.json?callback=')
         .then(response => {
             let location = response.data.iss_position;
-            // console.log(location);
             res.status(200).json(location);
+        });
+});
+
+app.get('/people', (req, res) => {
+    axios.get('http://api.open-notify.org/astros.json?callback=')
+        .then(response => {
+            let passengers = response.data;
+            res.status(200).json(passengers);
         });
 });
 
@@ -36,5 +43,5 @@ if (process.env.NODE_ENV === 'production') {
     app.get('*', (req, res) => {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
-  }
+}
   
