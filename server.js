@@ -33,11 +33,11 @@ app.get('/people', (req, res) => {
 app.get('/nextPassBy/:lat/:lon', (req, res) => {
     let lat = req.params.lat;
     let lon = req.params.lon;
-    let url = `http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=5&callback=`;
+    let url = `http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=1&callback=`;
     axios.get(url)
         .then(response => {
             let date = new Date(response.data.response[0].risetime * 1000);
-            res.status(200).json(date);
+            res.status(200).json(date.toLocaleString());
         });
 });
 

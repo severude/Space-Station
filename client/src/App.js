@@ -8,8 +8,8 @@ class App extends Component {
     this.state = {
       lat: null,
       lon: null,
-      my_lat: 47.0,
-      my_lon: -122.0020,
+      my_lat: null,
+      my_lon: null,
       travelers: 0,
       people: [],
       nextPassBy: null,
@@ -34,9 +34,6 @@ class App extends Component {
       })
       .catch(err => console.log(err));
 
-    this.callBackendAPI(`/nextPassBy/${this.state.my_lat}/${this.state.my_lon}`)
-      .then(res => this.setState({ nextPassBy: res }))
-      .catch(err => console.log(err));
   } //end componentDidMount()
 
   callBackendAPI = async (url) => {
@@ -64,7 +61,9 @@ class App extends Component {
         my_lon: position.longitude.toFixed(4),
         loading: false
       });
-      // this.findPassByTime();
+      this.callBackendAPI(`/nextPassBy/${this.state.my_lat}/${this.state.my_lon}`)
+        .then(res => this.setState({ nextPassBy: res }))
+        .catch(err => console.log(err));
     } catch(err) {
       console.warn(`${err.code}: ${err.message}`);
     }
