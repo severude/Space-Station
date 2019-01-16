@@ -36,8 +36,11 @@ app.get('/nextPassBy/:lat/:lon', (req, res) => {
     let url = `http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=1&callback=`;
     axios.get(url)
         .then(response => {
-            let date = new Date(response.data.response[0].risetime * 1000);
-            res.status(200).json(date.toLocaleString());
+            let nextPassBy = response.data.response[0];
+            res.status(200).json(nextPassBy);
+        }).catch((error) => {
+            // The space station does not pass by these coordinates, then return 0
+            res.status(200).json({"duration":0,"risetime":0});
         });
 });
 

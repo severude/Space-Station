@@ -13,6 +13,7 @@ class App extends Component {
       travelers: 0,
       people: [],
       nextPassBy: null,
+      duration: 0,
       loading: true
     };
   }
@@ -62,7 +63,11 @@ class App extends Component {
         loading: false
       });
       this.callBackendAPI(`/nextPassBy/${this.state.my_lat}/${this.state.my_lon}`)
-        .then(res => this.setState({ nextPassBy: res }))
+        .then(res => {
+          let date = new Date(res.risetime * 1000);
+          let minutes = Math.floor(res.duration / 60);
+          this.setState({ nextPassBy: date.toLocaleString(), duration: minutes });
+        })
         .catch(err => console.log(err));
     } catch(err) {
       console.warn(`${err.code}: ${err.message}`);
@@ -79,7 +84,12 @@ class App extends Component {
             <p>The current location of the ISS over the earth is {this.state.lat} latitude, {this.state.lon} longitude.</p>
             <h2>The following {this.state.travelers} people are currently on board the ISS:</h2>
             <p>{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</p>
-            <h3>The ISS will pass by your location of {this.state.my_lat} {this.state.my_lon} on: {this.state.nextPassBy}</h3>
+            {
+              (this.state.duration)
+              ? <h3>The ISS passes by your current location {this.state.my_lat} {this.state.my_lon} on {this.state.nextPassBy} for {this.state.duration} minutes.</h3>
+              : <h3>The ISS does not pass by your current location: {this.state.my_lat} {this.state.my_lon}</h3>
+            }
+            
           </Grid>
         </Jumbotron>
       </div>
