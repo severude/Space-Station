@@ -14,10 +14,6 @@ app.set('port', port);
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));
 
-app.get('/', (req, res) => {
-    res.send({ express: 'Space Station - Your Express Backend is Connected to REACT' });
-});
-
 app.get('/location', (req, res) => {
     axios.get('http://api.open-notify.org/iss-now.json?callback=')
         .then(response => {
