@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Grid, Jumbotron} from 'react-bootstrap';
-import $ from 'jquery';
 
 class App extends Component {
 
@@ -9,15 +8,14 @@ class App extends Component {
     this.state = {
       lat: null,
       lon: null,
-      my_lat: null,
-      my_lon: null,
+      my_lat: 47.0,
+      my_lon: -122.0020,
       travelers: 0,
       people: [],
       nextPassBy: null,
-      loading: true,
-      data: null
+      loading: true
     };
-  } 
+  }
 
   componentDidMount() {
     this.myLocation();
@@ -36,10 +34,9 @@ class App extends Component {
       })
       .catch(err => console.log(err));
 
-    // this.callBackendAPI('/express_backend')
-    //   .then(res => this.setState({ data: res.express }))
-    //   .catch(err => console.log(err));
-
+    this.callBackendAPI(`/nextPassBy/${this.state.my_lat}/${this.state.my_lon}`)
+      .then(res => this.setState({ nextPassBy: res }))
+      .catch(err => console.log(err));
   } //end componentDidMount()
 
   callBackendAPI = async (url) => {
@@ -52,19 +49,6 @@ class App extends Component {
     return body;
   };
 
-  findPassByTime = () => {
-    $.getJSON(`https://api.open-notify.org/iss-pass.json?lat=${this.state.my_lat}&lon=${this.state.my_lon}&alt=20&n=1&callback=?`)
-    .then(response => {
-      let date = new Date(response.response[0].risetime * 1000);
-      this.setState({
-        nextPassBy: date.toString()
-      });
-    })
-    .catch(error => {
-      console.warn('Error fetching and parsing data', error);
-    })
-  }
-
   getPosition = (options = {}) => {
     return new Promise(function (resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -76,8 +60,8 @@ class App extends Component {
       let pos = await this.getPosition();
       let position = pos.coords;
       this.setState({
-        my_lat: position.latitude,
-        my_lon: position.longitude,
+        my_lat: position.latitude.toFixed(4),
+        my_lon: position.longitude.toFixed(4),
         loading: false
       });
       // this.findPassByTime();
@@ -91,7 +75,6 @@ class App extends Component {
       <div>
         <Jumbotron>
           <Grid>
-            <h1>{this.state.data}</h1>
             <h1>Tracking the International Space Station (ISS)</h1>
             <p>The IIS travels at an altitude of about 250 miles and at a speed of 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p>
             <p>The current location of the ISS over the earth is {this.state.lat} latitude, {this.state.lon} longitude.</p>

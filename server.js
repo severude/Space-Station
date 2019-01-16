@@ -14,8 +14,8 @@ app.set('port', port);
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));
 
-app.get('/express_backend', (req, res) => {
-    res.send({ express: 'Hello World - Your Express Backend is Connected to REACT' });
+app.get('/', (req, res) => {
+    res.send({ express: 'Space Station - Your Express Backend is Connected to REACT' });
 });
 
 app.get('/location', (req, res) => {
@@ -34,6 +34,17 @@ app.get('/people', (req, res) => {
         });
 });
 
+app.get('/nextPassBy/:lat/:lon', (req, res) => {
+    let lat = req.params.lat;
+    let lon = req.params.lon;
+    let url = `http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=5&callback=`;
+    axios.get(url)
+        .then(response => {
+            let date = new Date(response.data.response[0].risetime * 1000);
+            res.status(200).json(date);
+        });
+});
+
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
     app.use(express.static('client/build'));
@@ -44,4 +55,3 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
-  
