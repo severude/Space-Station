@@ -4,9 +4,11 @@ Build a complete web application in this Capstone project. Build all aspects of 
 
 # Instructions
 
-Set up the Server: ```npm install && node server.js```
+Set up and start the Server: ```npm install && node server.js```
 
-Set up the Client: ```cd client && npm install && npm start```
+Set up and start the Client: ```cd client && npm install && npm start```
+
+Test the Project Setup: ```npm test```
 
 # Host URL
 https://space-station-capstone.herokuapp.com/

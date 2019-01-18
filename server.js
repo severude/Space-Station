@@ -14,6 +14,10 @@ app.set('port', port);
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));
 
+app.get('/test-route', (req, res) => {
+    res.json({ message: 'Welcome to the Space Station App' });
+});
+
 app.get('/location', (req, res) => {
     axios.get('http://api.open-notify.org/iss-now.json?callback=')
         .then(response => {
@@ -33,8 +37,7 @@ app.get('/people', (req, res) => {
 app.get('/nextPassBy/:lat/:lon', (req, res) => {
     let lat = req.params.lat;
     let lon = req.params.lon;
-    let url = `http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=1&callback=`;
-    axios.get(url)
+    axios.get(`http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=1&callback=`)
         .then(response => {
             let nextPassBy = response.data.response[0];
             res.status(200).json(nextPassBy);
@@ -54,3 +57,5 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
+
+module.exports = server;

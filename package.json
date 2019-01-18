@@ -7,7 +7,8 @@
     "start": "node server.js",
     "postinstall": "cd client && npm install",
     "dev": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
-    "heroku-postbuild": "cd client && npm run build"
+    "heroku-postbuild": "cd client && npm run build",
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,9 @@
     "jquery": "^3.3.1"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0"
+    "chai": "^4.2.0",
+    "concurrently": "^4.1.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.4.1"
   }
 }
