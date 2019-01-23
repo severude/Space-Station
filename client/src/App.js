@@ -3,7 +3,6 @@ import {Grid, Jumbotron} from 'react-bootstrap';
 import { Map, TileLayer, Circle } from 'react-leaflet';
 
 class App extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -16,15 +15,78 @@ class App extends Component {
       nextPassBy: null,
       duration: 0,
       zoom: 6,
+      interval: 3000,
       loading: true
     };
   }
 
   componentDidMount() {
-    this.myLocation();
+    this.getMyLocation();
+    this.getISSLocation();
+    this.getPassengers();
+  }
 
-    this.interval();
+  callBackendAPI = async (url) => {
+    const response = await fetch(url);
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message) 
+    }
+    return body;
+  };
 
+  getPositionPromise = (options = {}) => {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  }
+
+  updateMapZoom() {
+    let zoom = this.map && this.map.leafletElement.getZoom();
+    if(zoom !== undefined) {
+      this.setState({ zoom });
+    }
+  }
+
+  getMyLocation = async () => {
+    try {
+      let pos = await this.getPositionPromise();
+      let position = pos.coords;
+      this.setState({
+        my_lat: position.latitude.toFixed(4),
+        my_lon: position.longitude.toFixed(4)
+      });
+      this.getNextPassBy();
+    } catch(err) {
+      console.warn(`${err.code}: ${err.message}`);
+    }
+  }
+
+  getNextPassBy() {
+    this.callBackendAPI(`/nextPassBy/${this.state.my_lat}/${this.state.my_lon}`)
+      .then(res => {
+        let date = new Date(res.risetime * 1000);
+        let minutes = Math.floor(res.duration / 60);
+        this.setState({ nextPassBy: date.toLocaleString(), duration: minutes });
+      })
+      .catch(err => console.log(err));
+  }
+
+  getISSLocation() {
+    this.callBackendAPI('/location')
+      .then(res => {
+        this.setState({ 
+          lat: res.latitude, 
+          lon: res.longitude,
+          loading: false })
+      })
+      .catch(err => console.log(err));
+
+    setTimeout(this.getISSLocation.bind(this), this.state.interval);
+    this.updateMapZoom();
+  }
+
+  getPassengers() {
     this.callBackendAPI('/people')
       .then(res => {
         let persons = [];
@@ -34,53 +96,6 @@ class App extends Component {
         this.setState({ travelers: res.number, people: persons })
       })
       .catch(err => console.log(err));
-
-  } //end componentDidMount()
-
-  callBackendAPI = async (url) => {
-    const response = await fetch(url);
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
-  };
-
-  interval() {
-    this.callBackendAPI('/location')
-    .then(res => {
-      this.setState({ lat: res.latitude, lon: res.longitude, loading: false })
-    })
-    .catch(err => console.log(err));
-
-    setTimeout(this.interval.bind(this), 3000);
-  }
-
-  getPosition = (options = {}) => {
-    return new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
-    });
-  }
-
-  myLocation = async () => {
-    try {
-      let pos = await this.getPosition();
-      let position = pos.coords;
-      this.setState({
-        my_lat: position.latitude.toFixed(4),
-        my_lon: position.longitude.toFixed(4)
-      });
-      this.callBackendAPI(`/nextPassBy/${this.state.my_lat}/${this.state.my_lon}`)
-        .then(res => {
-          let date = new Date(res.risetime * 1000);
-          let minutes = Math.floor(res.duration / 60);
-          this.setState({ nextPassBy: date.toLocaleString(), duration: minutes });
-        })
-        .catch(err => console.log(err));
-    } catch(err) {
-      console.warn(`${err.code}: ${err.message}`);
-    }
   }
 
   render() {
@@ -101,7 +116,9 @@ class App extends Component {
             {
               (this.state.loading)
                 ? <p>Loading...</p>
-                : <Map center={[this.state.lat, this.state.lon]} zoom={this.state.zoom} >
+                : <Map center={[this.state.lat, this.state.lon]} 
+                      ref={(ref) => { this.map = ref; }}
+                      zoom={this.state.zoom} >
                     <TileLayer 
                       url='https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
                       maxZoom={18}
@@ -120,9 +137,9 @@ class App extends Component {
           </Grid>
         </Jumbotron>
       </div>
-    );
-  }
+    ); // end render return
+  } // end render
 
-}
+} // end App class
 
 export default App;
