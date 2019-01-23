@@ -13,9 +13,9 @@ code {
     monospace;
 }
 
-#mapid { 
-  height: 400px;
-  width: 600px;
+.leaflet-container { 
+  height: 20rem;
+  width: 40rem;
   margin-right: auto;
   margin-left: auto;
 }
