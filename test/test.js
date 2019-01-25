@@ -13,7 +13,6 @@ describe('Verify Project Setup', () => {
         request(app).get('/test-route')
             .expect(200, {"message": "Welcome to the Space Station App" }, done);
     });
-
 });
 
 describe('Verify Space Station API Routes', () => {
@@ -50,5 +49,22 @@ describe('Verify Space Station API Routes', () => {
                 done();
             });
     });
+});
 
+describe('Verify Weather API Routes', () => {
+
+    it('should verify the route for getting the weather at a given latitude longitude coordinates', function(done) {
+        request(app)
+            .get('/weather/48/-122')
+            .end((err, res) => {
+                expect(res.statusCode).to.be.equal(200);
+                assert.isString(res.body.name);
+                assert.isNumber(res.body.main.temp);
+                assert.isNumber(res.body.wind.speed);
+                assert.isNumber(res.body.wind.deg);
+                assert.isString(res.body.weather[0].description);
+                assert.isString(res.body.weather[0].icon);
+                done();
+            });
+    });
 });

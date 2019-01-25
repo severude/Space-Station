@@ -47,6 +47,16 @@ app.get('/nextPassBy/:lat/:lon', (req, res) => {
         });
 });
 
+app.get('/weather/:lat/:lon', (req, res) => {
+    let lat = req.params.lat;
+    let lon = req.params.lon;
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=f8a771601a9624cb98f25476e904ee37`)
+        .then(response => {
+            let weather = response.data;
+            res.status(200).json(weather);
+        });
+});
+
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
     app.use(express.static('client/build'));

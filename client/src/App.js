@@ -15,6 +15,13 @@ class App extends Component {
       nextPassBy: null,
       duration: 0,
       zoom: 6,
+      area: '',
+      temperature: null,
+      wind: null,
+      degrees: null,
+      direction: '',
+      status: '',
+      icon: '',
       interval: 3000,
       loading: true
     };
@@ -75,15 +82,17 @@ class App extends Component {
   getISSLocation() {
     this.callBackendAPI('/location')
       .then(res => {
+        this.updateMapZoom();
         this.setState({ 
           lat: res.latitude, 
           lon: res.longitude,
-          loading: false })
+          loading: false 
+        });
+        this.getWeather();
       })
       .catch(err => console.log(err));
 
     setTimeout(this.getISSLocation.bind(this), this.state.interval);
-    this.updateMapZoom();
   }
 
   getPassengers() {
@@ -94,6 +103,33 @@ class App extends Component {
           persons.push(person.name);
         });
         this.setState({ travelers: res.number, people: persons })
+      })
+      .catch(err => console.log(err));
+  }
+
+  getDirection(degrees) {
+    if(degrees >= 337.5) { return 'N'; }
+    else if(degrees >= 292.5) { return 'NW'; }
+    else if(degrees >= 247.5) { return 'W'; }
+    else if(degrees >= 202.5) { return 'SW'; }
+    else if(degrees >= 157.5) { return 'S'; }
+    else if(degrees >= 112.5) { return 'SE'; }
+    else if(degrees >= 67.5) { return 'E'; }
+    else if(degrees >= 22.5) { return 'NE'; }
+    else return 'N';
+  }
+
+  getWeather() {
+    this.callBackendAPI(`/weather/${this.state.lat}/${this.state.lon}`)
+      .then(res => {
+        let area = res.name;
+        let icon = res.weather[0].icon;
+        let temperature = Math.round(res.main.temp);
+        let status = res.weather[0].description;
+        let wind = Math.round(res.wind.speed);
+        let degrees = res.wind.deg;
+        let direction = this.getDirection(degrees);
+        this.setState({ area, temperature, status, wind, direction, icon });
       })
       .catch(err => console.log(err));
   }
@@ -134,6 +170,22 @@ class App extends Component {
                     />
                   </Map>
             }
+            {
+              (this.state.icon) 
+              ? <img src={`http://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" />
+              : <p></p>
+            }
+            {
+              (this.state.status)
+              ? <p>Conditions: {this.state.status} {this.state.temperature}&#176;</p>
+              : <p></p>
+            }
+            {
+              (this.state.direction)
+              ? <p>Wind: {this.state.direction} {this.state.wind}mph</p>
+              : <p></p>
+            }
+            <p>{this.state.area}</p>
           </Grid>
         </Jumbotron>
       </div>
