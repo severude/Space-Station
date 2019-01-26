@@ -13,9 +13,14 @@ code {
     monospace;
 }
 
-.leaflet-container { 
-  height: 20rem;
-  width: 40rem;
+.map-container {
+  height: 45rem;
+  width: 60rem;
   margin-right: auto;
   margin-left: auto;
+}
+
+.weather-image {
+  margin: 0 auto;
+  display: block;
 }

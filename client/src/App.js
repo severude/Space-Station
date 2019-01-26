@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Jumbotron} from 'react-bootstrap';
+import { Grid, Jumbotron, Badge } from 'react-bootstrap';
 import { Map, TileLayer, Circle } from 'react-leaflet';
 
 class App extends Component {
@@ -139,20 +139,21 @@ class App extends Component {
       <div>
         <Jumbotron>
           <Grid>
-            <h1>Tracking the International Space Station (ISS)</h1>
-            <p>The IIS travels at an altitude of about 250 miles and at a speed of 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p>
-            <p>The current location of the ISS over the earth is {this.state.lat} latitude, {this.state.lon} longitude.</p>
-            <h2>The following {this.state.travelers} people are currently on board the ISS:</h2>
-            <p>{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</p>
+            <h1 className="display-2">Tracking the International Space Station (ISS)</h1>
+            <p>The IIS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p>
+          </Grid>
+        </Jumbotron>
+          <Grid>
             {
-              (this.state.duration)
-              ? <h3>The ISS passes by your current location {this.state.my_lat} {this.state.my_lon} on {this.state.nextPassBy} for {this.state.duration} minutes.</h3>
-              : <h3>The ISS does not pass by your current location: {this.state.my_lat} {this.state.my_lon}</h3>
+              (this.state.lat)
+                ? <h2 className="text-center"><Badge className="p-2">{this.state.lat}</Badge> latitude <Badge className="p-2">{this.state.lon}</Badge> longitude</h2>
+                : <p></p>
             }
+          </Grid>
             {
               (this.state.loading)
-                ? <p>Loading...</p>
-                : <Map center={[this.state.lat, this.state.lon]} 
+                ? <h2 className="text-center">Loading...</h2>
+                : <Map className="map-container" center={[this.state.lat, this.state.lon]} 
                       ref={(ref) => { this.map = ref; }}
                       zoom={this.state.zoom} >
                     <TileLayer 
@@ -172,22 +173,27 @@ class App extends Component {
             }
             {
               (this.state.icon) 
-              ? <img src={`http://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" />
+              ? <img className="weather-image" src={`https://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" />
               : <p></p>
             }
             {
               (this.state.status)
-              ? <p>Conditions: {this.state.status} {this.state.temperature}&#176;</p>
+              ? <h3 className="text-center">Conditions: {this.state.status} {this.state.temperature}&#176;</h3>
               : <p></p>
             }
             {
               (this.state.direction)
-              ? <p>Wind: {this.state.direction} {this.state.wind}mph</p>
+              ? <h3 className="text-center">Wind: {this.state.direction} {this.state.wind} mph</h3>
               : <p></p>
             }
-            <p>{this.state.area}</p>
-          </Grid>
-        </Jumbotron>
+            <h3 className="text-center">{this.state.area}</h3>
+            <p className="text-center">The following {this.state.travelers} people are currently on board the ISS:</p>
+            <p className="text-center">{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</p>
+            {
+              (this.state.duration)
+              ? <p className="text-center">The ISS passes by your current location {this.state.my_lat} {this.state.my_lon} on {this.state.nextPassBy} for {this.state.duration} minutes.</p>
+              : <p className="text-center">The ISS does not pass by your current location: {this.state.my_lat} {this.state.my_lon}</p>
+            }
       </div>
     ); // end render return
   } // end render
