@@ -37,7 +37,7 @@ app.get('/people', (req, res) => {
 app.get('/nextPassBy/:lat/:lon', (req, res) => {
     let lat = req.params.lat;
     let lon = req.params.lon;
-    axios.get(`http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=1&callback=`)
+    axios.get(`http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=5&callback=`)
         .then(response => {
             let nextPassBy = response.data.response[0];
             res.status(200).json(nextPassBy);

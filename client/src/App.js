@@ -138,7 +138,7 @@ class App extends Component {
     return (
       <div>
           <Jumbotron className=" bg-info text-white">
-            <h1 className="display-4 text-center">International Space Station Location</h1>
+            <h1 className="display-4 text-center">International Space Station Locator</h1>
           </Jumbotron>
           <Grid>
             <Row>
