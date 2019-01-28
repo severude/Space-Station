@@ -13,14 +13,17 @@ code {
     monospace;
 }
 
+ul {
+  list-style: none;
+}
+
+p, li {
+  font-size: 1.5em;
+}
+
 .map-container {
-  height: 45rem;
+  height: 40rem;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-}
-
-.weather-image {
-  margin: 0 auto;
-  display: block;
 }

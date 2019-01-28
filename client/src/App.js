@@ -138,14 +138,14 @@ class App extends Component {
     return (
       <div>
           <Jumbotron className=" bg-info text-white">
-            <h1 className="display-2 text-center">International Space Station Locator</h1>
+            <h1 className="display-4 text-center">International Space Station Location</h1>
           </Jumbotron>
           <Grid>
             <Row>
               <Col className="col-lg-8" >
                 {
                   (this.state.lat)
-                    ? <h2 className="text-center"><Badge className="p-2">{this.state.lat}</Badge> latitude <Badge className="p-2">{this.state.lon}</Badge> longitude</h2>
+                    ? <h3 className="text-center mb-3"><Badge className="p-2">{this.state.lat}</Badge> latitude <Badge className="p-2">{this.state.lon}</Badge> longitude</h3>
                     : <p></p>
                 }
                 {
@@ -169,25 +169,25 @@ class App extends Component {
                         />
                       </Map>
                 }
-                <Row className="mx-auto">
-                    <Col xsOffset={0}>
+                <Row>
+                    <Col smOffset={3}>
                       {
                         (this.state.icon) 
-                        ? <img src={`https://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" />
+                        ? <img src={`https://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" className="ml-3"/>
                         : <p></p>
                       }
                     </Col>
                     <Col>
                       {
                         (this.state.status)
-                        ? <h3 className="text-center pt-3"> {this.state.status} {this.state.temperature}&#176;</h3>
+                        ? <h4 className="text-center pt-3 mx-3"> {this.state.status} {this.state.temperature}&#176;</h4>
                         : <p></p>
                       }
                     </Col>
                     <Col>
                       {
                         (this.state.direction)
-                        ? <h3 className="text-center pt-3">{this.state.direction} wind {this.state.wind} mph</h3>
+                        ? <h4 className="text-center pt-3">{this.state.direction} wind {this.state.wind} mph</h4>
                         : <p></p>
                       }
                     </Col>
@@ -195,15 +195,15 @@ class App extends Component {
                 <h1 className="text-center mb-5">{this.state.area}</h1>
               </Col>
               <Col className="col-lg" >
-                <Well bsSize="large"><h3 className="text-muted">The ISS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</h3></Well>
+                <Well><p>The ISS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p></Well>
                 {
                   (this.state.duration)
-                  ? <Well bsSize="large"><h3 className="text-muted">The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge>, <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</h3></Well>
-                  : <Well bsSize="large"><h3 className="text-muted">The ISS does not pass by your current location: <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge></h3></Well>
+                  ? <Well><p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge>, <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p></Well>
+                  : <Well><p>The ISS does not pass by your current location: <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge></p></Well>
                 }
-                <Well bsSize="large">
-                  <h3 className="text-muted">The following {this.state.travelers} people are currently on board the ISS:</h3>
-                  <h3 className="text-muted">{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</h3>
+                <Well>
+                  <p>The following {this.state.travelers} people are currently on board the ISS:</p>
+                  <ul className="text-muted">{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</ul>
                 </Well>
               </Col>
             </Row>
