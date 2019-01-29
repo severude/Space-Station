@@ -138,7 +138,7 @@ class App extends Component {
     return (
       <div>
           <Jumbotron className=" bg-info text-white">
-            <h1 className="display-4 text-center">International Space Station Locator</h1>
+            <h1 className="display-4 text-center">International Space Station Tracker</h1>
           </Jumbotron>
           <Grid>
             <Row>
@@ -198,7 +198,7 @@ class App extends Component {
                 <Well><p>The ISS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p></Well>
                 {
                   (this.state.duration)
-                  ? <Well><p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge>, <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p></Well>
+                  ? <Well><p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p></Well>
                   : <Well><p>The ISS does not pass by your current location: <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge></p></Well>
                 }
                 <Well>

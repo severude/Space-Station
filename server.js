@@ -1,8 +1,10 @@
+'use strict';
 const express = require('express');
 const http = require('http');
 const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -10,6 +12,15 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 const port = process.env.PORT || '3001';
 app.set('port', port);
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/space-station", { useNewUrlParser: true } );
+const db = mongoose.connection;
+db.on("error", (err) => {
+	console.error("Mongo database connection error:", err);
+});
+db.once("open", () => {
+	console.log("Mongo database connection successful");
+});
 
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));

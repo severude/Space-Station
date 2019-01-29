@@ -1,9 +1,31 @@
 const { expect } = require('chai');
 const { assert } = require('chai');
 const request = require('supertest');
+const mongoose = require('mongoose');
 const app = require('../server.js');
 
 describe('Verify Project Setup', () => {
+
+    // Before testing it should connect to the database
+    before( function(done) {
+        mongoose.connect("mongodb://localhost:27017/space-station", { useNewUrlParser: true } );
+
+        // Verify mongo database connection
+        mongoose.connection
+            .once("open", () => {
+                console.log("Mongo database connection successful");
+                done();
+            })
+            .on("error", (err) => {
+                console.error("Mongo database connection error:", err);
+            });
+    });
+
+    // Disconnect from the database
+    after( function(done) {
+        mongoose.disconnect();
+        done();
+    });    
 
     it('should have Mocha and Chai installed for testing', function () {
         expect(true).to.be.ok;
