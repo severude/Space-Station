@@ -22,6 +22,8 @@ db.once("open", () => {
 	console.log("Mongo database connection successful");
 });
 
+let Location = mongoose.model('Location', { location: String, latitude: String, longitude: String, count: Number });
+
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));
 
@@ -51,6 +53,23 @@ app.get('/nextPassBy/:lat/:lon', (req, res) => {
     axios.get(`http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}&alt=20&n=5&callback=`)
         .then(response => {
             let nextPassBy = response.data.response[0];
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=f8a771601a9624cb98f25476e904ee37`)
+                .then(response => {
+                    let area = response.data.name;
+                    Location.findOne({'location': area}, function(err, loc){
+                        if(loc) {
+                            loc.set({ count: loc.count + 1 });
+                            loc.save(function (err) {
+                                if (err) { console.log(err); }
+                            });
+                        } else {
+                            let location = new Location({ location: area, latitude: lat, longitude: lon, count: 1 });
+                            location.save(function (err) {
+                                if (err) { console.log(err); }
+                            });
+                        }
+                    });
+            });
             res.status(200).json(nextPassBy);
         }).catch((error) => {
             // The space station does not pass by these coordinates, then return 0
