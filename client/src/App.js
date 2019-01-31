@@ -22,6 +22,7 @@ class App extends Component {
       direction: '',
       status: '',
       icon: '',
+      locationData: [],
       interval: 3000,
       loading: true
     };
@@ -63,6 +64,7 @@ class App extends Component {
         my_lat: position.latitude.toFixed(4),
         my_lon: position.longitude.toFixed(4)
       });
+      this.getLocationData();
       this.getNextPassBy();
     } catch(err) {
       console.warn(`${err.code}: ${err.message}`);
@@ -130,6 +132,15 @@ class App extends Component {
         let degrees = res.wind.deg;
         let direction = this.getDirection(degrees);
         this.setState({ area, temperature, status, wind, direction, icon });
+      })
+      .catch(err => console.log(err));
+  }
+
+  getLocationData() {
+    this.callBackendAPI('/locationData')
+      .then(res => {
+        let data = res;
+        this.setState({ locationData: data });
       })
       .catch(err => console.log(err));
   }
@@ -209,10 +220,37 @@ class App extends Component {
             </Row>
 
         </Grid>
+        <Jumbotron className=" bg-info text-white">
+          <h3 className="text-center">Site Visitors</h3>
+          <LocationList locations={this.state.locationData} />
+        </Jumbotron>
       </div>
     ); // end render return
   } // end render
 
 } // end App class
+
+const LocationList = (props) => {
+  return (
+    <div>
+      {
+        props.locations.map(location => 
+        <Location
+          {...location}
+          key={location._id}
+        />
+        )
+      }
+    </div>
+  );
+}
+
+const Location = (props) => {
+  return (
+    <div>
+      <p className="text-center">{props.location} at coordinates {props.latitude} {props.longitude} has visited {props.count} times.</p>
+    </div>
+  );
+}
 
 export default App;

@@ -87,6 +87,16 @@ app.get('/weather/:lat/:lon', (req, res) => {
         });
 });
 
+app.get('/locationData', (req, res) => {
+    Location.find({}, function(err, users){
+        let userMap = [];
+        users.forEach(function(user){
+            userMap.push(user);
+        });
+        res.status(200).json(userMap);
+    });
+});
+
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
     app.use(express.static('client/build'));
