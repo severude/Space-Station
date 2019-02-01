@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Jumbotron, Badge, Well } from 'react-bootstrap';
+import { Button, Collapse } from 'reactstrap';
 import { Map, TileLayer, Circle } from 'react-leaflet';
 
 class App extends Component {
@@ -24,14 +25,21 @@ class App extends Component {
       icon: '',
       locationData: [],
       interval: 3000,
-      loading: true
+      loading: true,
+      collapse: false
     };
+    this.toggle = this.toggle.bind(this);
+    this.getLocationData = this.getLocationData.bind(this);
   }
 
   componentDidMount() {
     this.getMyLocation();
     this.getISSLocation();
     this.getPassengers();
+  }
+
+  toggle() {
+    this.setState({ collapse: !this.state.collapse });
   }
 
   callBackendAPI = async (url) => {
@@ -218,11 +226,14 @@ class App extends Component {
                 </Well>
               </Col>
             </Row>
-
         </Grid>
         <Jumbotron className=" bg-info text-white">
-          <h3 className="text-center">Site Visitors</h3>
-          <LocationList locations={this.state.locationData} />
+          <div className="text-center mb-3">
+              <Button color="info" size="lg" className="border border-white visitor-button p-3" onClick={e => { this.toggle(); this.getLocationData(); }} >Site Visitors</Button>
+          </div>
+          <Collapse isOpen={this.state.collapse}>
+              <LocationList locations={this.state.locationData} />
+          </Collapse>
         </Jumbotron>
       </div>
     ); // end render return
@@ -247,9 +258,7 @@ const LocationList = (props) => {
 
 const Location = (props) => {
   return (
-    <div>
-      <p className="text-center">{props.location} at coordinates {props.latitude} {props.longitude} has visited {props.count} times.</p>
-    </div>
+    <p className="text-center location-item">{props.location} at coordinates {props.latitude} {props.longitude} has visited {props.count} times</p>
   );
 }
 
