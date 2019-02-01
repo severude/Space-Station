@@ -16,7 +16,7 @@ Leaflet  https://leafletjs.com/
 
 Open Weather Map  https://openweathermap.org/api
 
-# Platform used
+# Stack used
 
 Mongo, Express, React, Node and Bootstrap
 

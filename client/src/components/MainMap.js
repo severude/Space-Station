@@ -206,7 +206,7 @@ class MainMap extends Component {
                 {
                     (this.state.duration)
                     ? <Well><p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p></Well>
-                    : <Well><p>The ISS does not pass by your current location: <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge></p></Well>
+                    : <Well><p>The ISS does not pass by your current location <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> OR you need to allow this app to access your location when prompted by the browser.</p></Well>
                 }
                 <Well>
                     <p>The following {this.state.travelers} people are currently on board the ISS:</p>
