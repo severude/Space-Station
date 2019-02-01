@@ -2,13 +2,48 @@
 
 Build a complete web application in this Capstone project. Build all aspects of the site including an interactive front end. On the backend, manage data with a database, talk to APIs, and, host the site on the web so the world can see your finished, running web application.
 
-# Instructions
+# Overview
 
-Set up and start the Server: ```npm install && node server.js```
+The International Space Station travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour. That is about 5 miles per second. It orbits the earth every 92 minutes.  
 
-Set up and start the Client: ```cd client && npm install && npm start```
+This app tracks the current position of the ISS on a map as well as providing the current weather conditions below this point.  User locations are recorded into the database and are tracked regarding the number of times they use this app.
+
+# APIs used
+
+Open Notify  http://open-notify.org/Open-Notify-API/
+
+Leaflet  https://leafletjs.com/
+
+Open Weather Map  https://openweathermap.org/api
+
+# Platform used
+
+Mongo, Express, React, Node and Bootstrap
+
+# Setup and Startup Instructions
+
+Set up the project: ```npm install```
+
+Start the Server: ```node server.js```
+
+Start the Client: ```cd client && npm start```
 
 Test the Project Setup: ```npm test```
 
-# Host URL
+Please allow the app to access your location when prompted by the browser.
+
+# Heroku Host URL
+
 https://space-station-capstone.herokuapp.com/
+
+# Browsers Tested
+
+Google Chrome
+
+Mozilla Firefox
+
+Microsoft Edge
+
+Opera
+
+Google Android

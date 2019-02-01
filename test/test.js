@@ -35,6 +35,17 @@ describe('Verify Project Setup', () => {
         request(app).get('/test-route')
             .expect(200, {"message": "Welcome to the Space Station App" }, done);
     });
+
+    it('should verify access to the database', function(done) {
+        request(app)
+            .get('/locationData')
+            .end((err, res) => {
+                expect(res.statusCode).to.be.equal(200);
+                assert.isArray(res.body);
+                done();
+            });
+    });
+    
 });
 
 describe('Verify Space Station API Routes', () => {
