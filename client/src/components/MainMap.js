@@ -150,68 +150,76 @@ class MainMap extends Component {
         <Grid>
             <Row>
                 <Col className="col-lg-8" >
-                {
-                    (this.state.lat)
-                    ? <h3 className="text-center mb-3"><Badge className="p-2">{this.state.lat}</Badge> latitude <Badge className="p-2">{this.state.lon}</Badge> longitude</h3>
-                    : <p></p>
-                }
-                {
-                    (this.state.loading)
-                    ? <h2 className="text-center">Loading...</h2>
-                    : <Map className="map-container" center={[this.state.lat, this.state.lon]} 
-                            ref={(ref) => { this.map = ref; }}
-                            zoom={this.state.zoom} >
-                        <TileLayer 
-                            url='https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
-                            maxZoom={18}
-                            attribution= 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-                            accessToken= 'pk.eyJ1IjoiZHNldmVydWRlIiwiYSI6ImNqcjg1bjJ3djAzYXk0M253anlueXBsMWgifQ.K1U8coDnDF_hpCrLPvrbqA'
-                            id= 'mapbox.streets'
-                        />
-                        <Circle center={[this.state.lat, this.state.lon]}
-                            color='red'
-                            fillColor='#f03'
-                            fillOpacity={0.5}
-                            radius={500}
-                        />
-                        </Map>
-                }
-                <Row>
-                    <Col smOffset={3}>
-                        {
-                        (this.state.icon) 
-                        ? <img src={`https://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" className="ml-3"/>
-                        : <p></p>
-                        }
-                    </Col>
-                    <Col>
-                        {
-                        (this.state.status)
-                        ? <h4 className="text-center pt-3 mx-3"> {this.state.status} {this.state.temperature}&#176;</h4>
-                        : <p></p>
-                        }
-                    </Col>
-                    <Col>
-                        {
-                        (this.state.direction)
-                        ? <h4 className="text-center pt-3">{this.state.direction} wind {this.state.wind} mph</h4>
-                        : <p></p>
-                        }
-                    </Col>
-                </Row>
-                <h1 className="text-center mb-5">{this.state.area}</h1>
+                  {
+                      (this.state.lat)
+                      ? <h3 className="text-center mb-3"><Badge className="p-2">{this.state.lat}</Badge> latitude <Badge className="p-2">{this.state.lon}</Badge> longitude</h3>
+                      : <p></p>
+                  }
+                  {
+                      (this.state.loading)
+                      ? <h2 className="text-center">Loading...</h2>
+                      : <Map className="map-container" center={[this.state.lat, this.state.lon]} 
+                              ref={(ref) => { this.map = ref; }}
+                              zoom={this.state.zoom} >
+                          <TileLayer 
+                              url='https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
+                              maxZoom={18}
+                              attribution= 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+                              accessToken= 'pk.eyJ1IjoiZHNldmVydWRlIiwiYSI6ImNqcjg1bjJ3djAzYXk0M253anlueXBsMWgifQ.K1U8coDnDF_hpCrLPvrbqA'
+                              id= 'mapbox.streets'
+                          />
+                          <Circle center={[this.state.lat, this.state.lon]}
+                              color='red'
+                              fillColor='#f03'
+                              fillOpacity={0.5}
+                              radius={500}
+                          />
+                          </Map>
+                  }
+                  <Row>
+                      <Col smOffset={3}>
+                          {
+                          (this.state.icon) 
+                          ? <img src={`https://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" className="ml-3"/>
+                          : <p></p>
+                          }
+                      </Col>
+                      <Col>
+                          {
+                          (this.state.status)
+                          ? <h4 className="text-center pt-3 mx-3"> {this.state.status} {this.state.temperature}&#176;</h4>
+                          : <p></p>
+                          }
+                      </Col>
+                      <Col>
+                          {
+                          (this.state.direction)
+                          ? <h4 className="text-center pt-3">{this.state.direction} wind {this.state.wind} mph</h4>
+                          : <p></p>
+                          }
+                      </Col>
+                  </Row>
+                  <h1 className="text-center mb-5">{this.state.area}</h1>
                 </Col>
                 <Col className="col-lg" >
-                <Well><p>The ISS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p></Well>
-                {
-                    (this.state.duration)
-                    ? <Well><p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p></Well>
-                    : <Well><p>The ISS does not pass by your current location <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> OR you need to allow this app to access your location when prompted by the browser.</p></Well>
-                }
-                <Well>
-                    <p>The following {this.state.travelers} people are currently on board the ISS:</p>
-                    <ul className="text-muted">{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</ul>
-                </Well>
+                  <Well>
+                    <p>The ISS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p>
+                  </Well>
+                  <Well>
+                    {
+                      this.state.my_lat === null && 
+                      <p>Access is required for your location in order to make this calculation.  This is a browser setting.</p>
+                    }
+                    {
+                      (this.state.duration)
+                      ? <p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p>
+                      : <p>The ISS does not pass by your current location <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge></p>
+                    }
+                  </Well>
+                  <Well>
+                      <p>The following {this.state.travelers} people are currently on board the ISS:</p>
+                      <ul className="text-muted">{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</ul>
+                  </Well>
                 </Col>
             </Row>
         </Grid>
