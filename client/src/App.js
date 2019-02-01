@@ -258,7 +258,14 @@ const LocationList = (props) => {
 
 const Location = (props) => {
   return (
-    <p className="text-center location-item">{props.location} at coordinates {props.latitude} {props.longitude} has visited {props.count} times</p>
+    <div>
+      {
+        (props.count === 1)
+        ? <p className="text-center location-item">{props.location} at coordinates {props.latitude} {props.longitude} has visited {props.count} time</p>
+        : <p className="text-center location-item">{props.location} at coordinates {props.latitude} {props.longitude} has visited {props.count} times</p>
+      }
+    </div>
+    
   );
 }
 
