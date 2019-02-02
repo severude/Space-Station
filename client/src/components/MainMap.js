@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Badge, Well } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { Map, TileLayer, Circle } from 'react-leaflet';
+import MapHeader from './MapHeader';
+import MapFooter from './MapFooter';
+import Sidebar from './Sidebar';
 
 class MainMap extends Component {
 
@@ -150,11 +153,10 @@ class MainMap extends Component {
         <Grid>
             <Row>
                 <Col className="col-lg-8" >
-                  {
-                      (this.state.lat)
-                      ? <h3 className="text-center mb-3"><Badge className="p-2">{this.state.lat}</Badge> latitude <Badge className="p-2">{this.state.lon}</Badge> longitude</h3>
-                      : <p></p>
-                  }
+                  <MapHeader 
+                    lat={this.state.lat}
+                    lon={this.state.lon}
+                  />
                   {
                       (this.state.loading)
                       ? <h2 className="text-center">Loading...</h2>
@@ -176,50 +178,24 @@ class MainMap extends Component {
                           />
                           </Map>
                   }
-                  <Row>
-                      <Col smOffset={3}>
-                          {
-                          (this.state.icon) 
-                          ? <img src={`https://openweathermap.org/img/w/${this.state.icon}.png`} alt="weather icon" className="ml-3"/>
-                          : <p></p>
-                          }
-                      </Col>
-                      <Col>
-                          {
-                          (this.state.status)
-                          ? <h4 className="text-center pt-3 mx-3"> {this.state.status} {this.state.temperature}&#176;</h4>
-                          : <p></p>
-                          }
-                      </Col>
-                      <Col>
-                          {
-                          (this.state.direction)
-                          ? <h4 className="text-center pt-3">{this.state.direction} wind {this.state.wind} mph</h4>
-                          : <p></p>
-                          }
-                      </Col>
-                  </Row>
-                  <h1 className="text-center mb-5">{this.state.area}</h1>
+                  <MapFooter
+                    icon={this.state.icon}
+                    status={this.state.status}
+                    temperature={this.state.temperature}
+                    direction={this.state.direction}
+                    wind={this.state.wind}
+                    area={this.state.area}
+                  />
                 </Col>
                 <Col className="col-lg" >
-                  <Well>
-                    <p>The ISS travels at an altitude of about 250 miles above the earth and at a speed of about 17,100 miles per hour.  That is about 5 miles per second.  It orbits the earth every 92 minutes.</p>
-                  </Well>
-                  <Well>
-                    {
-                      this.state.my_lat === null && 
-                      <p>Access is required for your location in order to make this calculation.  This is a browser setting.</p>
-                    }
-                    {
-                      (this.state.duration)
-                      ? <p>The ISS will pass by your current location of <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge> on {this.state.nextPassBy} for {this.state.duration} minutes.</p>
-                      : <p>The ISS does not pass by your current location <Badge className="p-2">{this.state.my_lat}</Badge> <Badge className="p-2">{this.state.my_lon}</Badge></p>
-                    }
-                  </Well>
-                  <Well>
-                      <p>The following {this.state.travelers} people are currently on board the ISS:</p>
-                      <ul className="text-muted">{this.state.people.map((person, index) => <li key={index}>{person}</li>)}</ul>
-                  </Well>
+                  <Sidebar 
+                    lat={this.state.my_lat}
+                    lon={this.state.my_lon}
+                    duration={this.state.duration}
+                    travelers={this.state.travelers}
+                    people={this.state.people}
+                    nextPassBy={this.state.nextPassBy}
+                  />
                 </Col>
             </Row>
         </Grid>
