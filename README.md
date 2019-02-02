@@ -47,3 +47,7 @@ Microsoft Edge
 Opera
 
 Google Android
+
+---
+
+This project is quite impressive. You have obviously put a lot of time and effort into it, which is shown not just by the quality of the application itself but also by little things like how well you have documented the app and how thorough you were in testing it in multiple browsers. The idea itself for the project is also quite unique and interesting.
