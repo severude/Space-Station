@@ -4,7 +4,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../server.js');
 
-describe('Verify Project Setup', () => {
+describe('Project Setup', () => {
 
     // Before testing it should connect to the database
     before( function(done) {
@@ -26,6 +26,10 @@ describe('Verify Project Setup', () => {
         mongoose.disconnect();
         done();
     });    
+
+});
+
+describe('Verify Project Setup', () => {
 
     it('should have Mocha and Chai installed for testing', function () {
         expect(true).to.be.ok;
